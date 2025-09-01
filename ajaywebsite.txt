@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +31,9 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
+            /* ensure header content sits above animations */
+            position: relative;
+            z-index: 2;
         }
         
         header {
@@ -40,6 +44,16 @@
             clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
             position: relative;
             overflow: hidden;
+        }
+
+        /* --- lightweight particles canvas behind everything --- */
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* behind the decorative overlay + content */
+            pointer-events: none;
         }
         
         header::before {
@@ -52,6 +66,7 @@
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
             background-size: cover;
             animation: pulse 15s infinite alternate;
+            z-index: 1; /* above canvas, below content */
         }
         
         @keyframes pulse {
@@ -68,6 +83,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 20px;
             animation: float 6s ease-in-out infinite;
+            position: relative;
         }
         
         @keyframes float {
@@ -99,6 +115,18 @@
             opacity: 0.9;
             margin-bottom: 20px;
         }
+
+        /* --- typing effect added (non-intrusive) --- */
+        .tagline .typing {
+            border-right: 2px solid rgba(255,255,255,0.85);
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            width: 0;
+            animation: typing 3.5s steps(28, end) forwards, blink .75s step-end infinite;
+        }
+        @keyframes typing { from { width: 0 } to { width: 260px } }
+        @keyframes blink { 50% { border-color: transparent } }
         
         .contact-info {
             display: flex;
@@ -325,32 +353,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-        
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-        
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
+        <!-- particles canvas (added) -->
+        <canvas id="hero-canvas"></canvas>
+
         <div class="container">
-            <!-- Placeholder for profile image - replace with actual image -->
+            <!-- ✅ your profile image kept as-is -->
             <img src="https://storage.googleapis.com/ajayyadavajayyadav/ajay123.jpeg" alt="Ajay Yadav" class="profile-img">
             <h1>AJAY YADAV</h1>
-            <p class="tagline">Cloud & DevOps Learner</p>
+            <!-- ✅ tagline with typing effect (added span only) -->
+            <p class="tagline"><span class="typing">Cloud & DevOps Learner</span></p>
             <div class="contact-info">
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ay815515@gmai.com" target="_blank" class="contact-item">
                     <i class="fas fa-envelope"></i>
                     <span>ay815515@gmail.com</span>
-                    
                 </a>
                 <a href="websiteto:www.ajayyadav.co.in" class="contact-item">
                     <i class="fas fa-globe"></i>
@@ -370,7 +393,7 @@
         </div>
     </section>
     
-        <section class="fade-in delay-2">
+    <section class="fade-in delay-2">
         <div class="container">
             <h2 class="section-title">Topics covered in the training</h2>
             <div class="card fade-in delay-1">
@@ -382,13 +405,9 @@
                     <div class="session-item">Tar file (compress, compress file view, extract), SCP </div>
                     <div class="session-item">Package Management</div>
                     <div class="session-item">View running process, Cronjob</div>
-                    
                 </div>
                 
-                
-                
                 <h3> <u>AWS Topics Covered</u> </h3>
-                
                 <div class="training-sessions">
                     <div class="session-item">Networking</div>
                     <div class="session-item">Firewall, Firewall commands, logs</div>
@@ -411,7 +430,6 @@
                     <div class="session-item">Use of VPC, VPC Peering, Network Network ACLs</div>
                     <div class="session-item">AWS SQS, SWF, Application Load balancer</div>
                     <div class="session-item">SNS, CDN, Cloud watch, Billing & Cont management, Cloud front, Edge locations</div>
-                    
                 </div>
                 
                 <h3><u>Docker Topics Covered</u></h3>
@@ -422,7 +440,6 @@
                     <div class="session-item"> Dockerfile, Port mapping, Docker build</div>
                     <div class="session-item">Volume Management in Docker</div>
                     <div class="session-item">Docker compose</div>
-                    
                 </div>
                 
                 <h3><u> Kubernetes Topics Covered</u></h3>
@@ -431,19 +448,17 @@
                     <div class="session-item">Pod creation, Delete</div>
                     <div class="session-item">Node Selector, Replicaset, Service, namespace</div>
                     <div class="session-item"> Node affinity, readiness probe, liveness probe </div>
-		    <div class="session-item">Upgrades and Volumes in Kubernetes, NFS server, PV & PVC</div>
-		    <div class="session-item">Database in Kubernetes, Configmap, Secret</div>
-		    <div class="session-item">Ingress</div>
-		    <div class="session-item">Security in Kubernetes, Role & RoleBinding</div>
-		    <div class="session-item">ClusterRole, ClusterRoleBinding, Metrix Server, Dashboard</div>
-                    
+                    <div class="session-item">Upgrades and Volumes in Kubernetes, NFS server, PV & PVC</div>
+                    <div class="session-item">Database in Kubernetes, Configmap, Secret</div>
+                    <div class="session-item">Ingress</div>
+                    <div class="session-item">Security in Kubernetes, Role & RoleBinding</div>
+                    <div class="session-item">ClusterRole, ClusterRoleBinding, Metrix Server, Dashboard</div>
                 </div>
                 
             </div>
         </div>
     </section>
  
-    
     <section class="fade-in delay-1">
         <div class="container">
             <h2 class="section-title">Education</h2>
@@ -483,7 +498,6 @@
         </div>
     </section>
     
-   
     <section class="fade-in delay-2">
         <div class="container">
             <h2 class="section-title">Professional Experience</h2>
@@ -491,7 +505,7 @@
                 <div class="card fade-in delay-1">
                     <h3>Cloud & DevOps Learner</h3>
                     <p class="date">01/2025 – Present</p>
-                    <p>Currently undergoing training in Linux system administration and AWS cloud technologies.</p>
+                    <p>Currently undergoing training in Linux, AWS, Docker, Kubernetes, Git</p>
                 </div>
                 <div class="card fade-in delay-2">
                     <h3>Officer in Netafim Irrigation</h3>
@@ -558,17 +572,84 @@
             <p>&copy; 2025 Ajay Yadav. All rights reserved.</p>
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/ajayyadav-collab/" class="social-link" target="_blank">
-      <i class="fab fa-linkedin-in"></i>
-                
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
                 <a href="https://github.com/ajayyadav-collab" class="social-link" target="_blank"> 
-                <i class="fab fa-github"></i></a>
-                
+                    <i class="fab fa-github"></i>
+                </a>
                 <a href="https://www.instagram.com/ajay_1_yadav?igsh=MTEyNW5oY3F1YWM3dQ==" class="social-link" target="_blank"> 
-                <i class="fab fa-instagram"></i></a>
-                
+                    <i class="fab fa-instagram"></i>
+                </a>
             </div>
         </div>
     </footer>
 
+    <!-- tiny particles script (no external library) -->
+    <script>
+      (function () {
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles;
+
+        function resize() {
+          w = canvas.width = canvas.offsetWidth = canvas.parentElement.clientWidth;
+          h = canvas.height = canvas.offsetHeight = canvas.parentElement.clientHeight;
+          init();
+        }
+
+        function init() {
+          const count = Math.min(100, Math.floor(w * h / 18000)); // responsive density
+          particles = Array.from({ length: count }).map(() => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: (Math.random() - 0.5) * 0.6,
+            r: Math.random() * 1.8 + 0.7
+          }));
+        }
+
+        function step() {
+          ctx.clearRect(0, 0, w, h);
+          // draw links
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const a = particles[i], b = particles[j];
+              const dx = a.x - b.x, dy = a.y - b.y;
+              const dist = Math.hypot(dx, dy);
+              if (dist < 120) {
+                ctx.globalAlpha = 1 - dist / 120;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+
+          // draw nodes & move
+          particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.9)';
+            ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+            // bounce on edges
+            if (p.x < 0 || p.x > w) p.vx *= -1;
+            if (p.y < 0 || p.y > h) p.vy *= -1;
+          });
+
+          requestAnimationFrame(step);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        step();
+      })();
+    </script>
 </body>
 </html>
