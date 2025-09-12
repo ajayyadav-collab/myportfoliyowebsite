@@ -373,7 +373,7 @@
             <div class="contact-info">
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ay815515@gmai.com" target="_blank" class="contact-item">
                     <i class="fas fa-envelope"></i>
-                    <span>ay815515@gmail.com 12356</span>
+                    <span>ay815515@gmail.com</span>
                 </a>
                 <a href="websiteto:www.ajayyadav.co.in" class="contact-item">
                     <i class="fas fa-globe"></i>
