@@ -377,7 +377,7 @@
                 </a>
                 <a href="websiteto:www.ajayyadav.co.in" class="contact-item">
                     <i class="fas fa-globe"></i>
-                    <span>www.ajayyadav.co.in.1111</span>
+                    <span>www.ajayyadav.co.in</span>
                 </a>          
                 <!-- Removed phone number as per request -->
             </div>
